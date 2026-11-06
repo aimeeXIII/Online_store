@@ -38,9 +38,11 @@ def test_category_count():
     product = Product("Телефон", "Тест", 10000.0, 1)
 
     cat1 = Category("Кат1", "Описание1", [product])
+    assert cat1 is not None
     assert Category.category_count == 1
 
     cat2 = Category("Кат2", "Описание2", [product])
+    assert cat2 is not None
     assert Category.category_count == 2
 
 
@@ -51,7 +53,9 @@ def test_product_count():
     p3 = Product("Товар3", "Описание", 300.0, 1)
 
     cat1 = Category("Кат1", "Описание", [p1, p2])
+    assert cat1 is not None
     assert Category.product_count == 2  # Добавили 2 товара
 
     cat2 = Category("Кат2", "Описание", [p3])
+    assert cat2 is not None
     assert Category.product_count == 3  # Всего стало 3 товара
