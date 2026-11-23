@@ -29,8 +29,9 @@ def test_category_creation():
 
     assert category.name == "Электроника"
     assert category.description == "Гаджеты"
-    assert len(category.products) == 2
-    assert category.products[0] == product1
+    assert "Смартфон" in category.products
+    assert "Ноутбук" in category.products
+    assert category.products == "Смартфон, 50000.0 руб. Остаток: 10 шт.\nНоутбук, 100000.0 руб. Остаток: 5 шт.\n"
 
 
 def test_category_count():
@@ -59,3 +60,69 @@ def test_product_count():
     cat2 = Category("Кат2", "Описание", [p3])
     assert cat2 is not None
     assert Category.product_count == 3  # Всего стало 3 товара
+
+
+def test_add_product():
+    """Проверка метода add_product"""
+    product1 = Product("Смартфон", "Телефон", 50000.0, 10)
+    product2 = Product("Ноутбук", "Компьютер", 100000.0, 5)
+
+    category = Category("Электроника", "Гаджеты", [product1])
+
+    # Запоминаем текущее количество продуктов
+    initial_count = Category.product_count
+
+    # Добавляем новый продукт
+    category.add_product(product2)
+
+    # Проверяем, что продукт добавился (через геттер)
+    assert "Ноутбук" in category.products
+
+    # Проверяем, что счётчик увеличился на 1
+    assert Category.product_count == initial_count + 1
+
+
+def test_products_getter():
+    """Проверка геттера products"""
+    product1 = Product("Смартфон", "Телефон", 50000.0, 10)
+    category = Category("Электроника", "Гаджеты", [product1])
+
+    expected = "Смартфон, 50000.0 руб. Остаток: 10 шт.\n"
+    assert category.products == expected
+
+
+def test_new_product_classmethod():
+    """Проверка класс-метода new_product"""
+    product_data = {
+        "name": "Планшет",
+        "description": "Удобный планшет",
+        "price": 30000.0,
+        "quantity": 7
+    }
+
+    product = Product.new_product(product_data)
+
+    assert product.name == "Планшет"
+    assert product.description == "Удобный планшет"
+    assert product.price == 30000.0
+    assert product.quantity == 7
+
+
+def test_price_setter():
+    """Проверка сеттера цены"""
+    product = Product("Смартфон", "Телефон", 50000.0, 10)
+
+    # Проверяем геттер
+    assert product.price == 50000.0
+
+    # Устанавливаем новую положительную цену
+    product.price = 60000.0
+    assert product.price == 60000.0
+
+    # Пытаемся установить отрицательную цену
+    product.price = -100
+    assert product.price == 60000.0  # Цена не должна была измениться
+
+    # Пытаемся установить нулевую цену
+    product.price = 0
+    assert product.price == 60000.0  # Цена не должна была измениться
