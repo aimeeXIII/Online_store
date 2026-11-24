@@ -31,7 +31,7 @@ def test_category_creation():
     assert category.description == "Гаджеты"
     assert "Смартфон" in category.products
     assert "Ноутбук" in category.products
-    assert category.products == "Смартфон, 50000.0 руб. Остаток: 10 шт.\nНоутбук, 100000.0 руб. Остаток: 5 шт.\n"
+    assert category.products == "Смартфон, 50000.0 руб. Остаток: 10 шт.\nНоутбук, 100000.0 руб. Остаток: 5 шт."
 
 
 def test_category_count():
@@ -87,7 +87,7 @@ def test_products_getter():
     product1 = Product("Смартфон", "Телефон", 50000.0, 10)
     category = Category("Электроника", "Гаджеты", [product1])
 
-    expected = "Смартфон, 50000.0 руб. Остаток: 10 шт.\n"
+    expected = "Смартфон, 50000.0 руб. Остаток: 10 шт."
     assert category.products == expected
 
 
