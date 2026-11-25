@@ -126,3 +126,24 @@ def test_price_setter():
     # Пытаемся установить нулевую цену
     product.price = 0
     assert product.price == 60000.0  # Цена не должна была измениться
+
+
+def test_product_str():
+    """Проверка строкового представления Product"""
+    product = Product("Смартфон", "Телефон", 50000.0, 10)
+    assert str(product) == "Смартфон, 50000.0 руб. Остаток: 10 шт."
+
+
+def test_category_str():
+    """Проверка строкового представления Category"""
+    product1 = Product("Смартфон", "Телефон", 50000.0, 10)
+    product2 = Product("Ноутбук", "Компьютер", 100000.0, 5)
+    category = Category("Электроника", "Гаджеты", [product1, product2])
+    assert str(category) == "Электроника, количество продуктов: 15 шт."
+
+
+def test_product_add():
+    """Проверка магического метода сложения"""
+    product1 = Product("Смартфон", "Телефон", 100.0, 10)
+    product2 = Product("Ноутбук", "Компьютер", 200.0, 2)
+    assert product1 + product2 == 1400.0  # 100*10 + 200*2
