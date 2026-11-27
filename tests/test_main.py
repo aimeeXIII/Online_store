@@ -1,5 +1,5 @@
 import pytest
-from main import Product, Category
+from main import Product, Category, Smartphone, LawnGrass
 
 
 @pytest.fixture(autouse=True)
@@ -147,3 +147,39 @@ def test_product_add():
     product1 = Product("Смартфон", "Телефон", 100.0, 10)
     product2 = Product("Ноутбук", "Компьютер", 200.0, 2)
     assert product1 + product2 == 1400.0  # 100*10 + 200*2
+
+
+def test_add_same_types():
+    """Проверка сложения объектов одного класса"""
+    smartphone1 = Smartphone("Смартфон1", "Описание", 100.0, 10, 95.5, "Модель", 256, "Серый")
+    smartphone2 = Smartphone("Смартфон2", "Описание", 200.0, 2, 98.2, "Модель", 512, "Синий")
+    assert smartphone1 + smartphone2 == 1400.0  # 100*10 + 200*2
+
+
+def test_add_different_types():
+    """Проверка, что сложение разных типов вызывает TypeError"""
+    smartphone = Smartphone("Смартфон", "Описание", 100.0, 10, 95.5, "Модель", 256, "Серый")
+    grass = LawnGrass("Трава", "Описание", 500.0, 20, "Россия", "7 дней", "Зеленый")
+    try:
+        smartphone + grass
+        assert False, "Должен был быть TypeError"
+    except TypeError:
+        pass
+
+
+def test_add_smartphone_to_category():
+    """Проверка, что наследник добавляется в категорию"""
+    phone = Smartphone("Смартфон", "Описание", 100.0, 10, 95.5, "Модель", 256, "Серый")
+    category = Category("Электроника", "Гаджеты", [])
+    category.add_product(phone)
+    assert "Смартфон" in category.products
+
+
+def test_add_not_product():
+    """Проверка, что добавление не-продукта вызывает TypeError"""
+    category = Category("Электроника", "Гаджеты", [])
+    try:
+        category.add_product("Not a product")
+        assert False, "Должен был быть TypeError"
+    except TypeError:
+        pass
